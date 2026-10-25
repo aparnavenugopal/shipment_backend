@@ -41,6 +41,7 @@ def _create_token_for_credentials(
 @limiter.limit("20/hour")
 def register_user(
     request: Request,
+    response: Response,
     data: UserCreate,
     db: Session = Depends(get_db)
 ):
