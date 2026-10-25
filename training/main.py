@@ -7,6 +7,11 @@ from slowapi.errors import RateLimitExceeded
 
 from .core.rate_limiter import limiter
 from contextlib import asynccontextmanager
+from .database_orm import engine
+from .models.orm_models import Base
+from .models import customer_model as _customer_model
+from .models import shipment_models as _shipment_models
+from .models import users_model as _users_model
 from .router.user import router as user_router
 from .model import ShipmentCreate, ShipmentModify
 from .router.shipments import router as shipments_router
@@ -16,6 +21,7 @@ from .router.customer import router as customer_router
 async def lifespan(app: FastAPI):
     # startup: runs before the app handles requests
     print("shipment tracker is starting")
+    Base.metadata.create_all(bind=engine)
 
     yield
 
